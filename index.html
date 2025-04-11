@@ -2,213 +2,126 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Platform: MedCareLink™ - Developed & Owned by: Phòng KHNV TTYT Giao Thủy - Pham Vinh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đặt Lịch Hẹn Khám - TTYT Giao Thủy</title>
   <style>
-    body { text-align: center; background-color: #f4f4f4; }
+    body {
+      background-color: white;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
 
-    #cameraContainer {
-      position: relative;
-      width: 70%;
-      height: 550px;
-      margin: auto;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      padding: 20px;
+    }
+
+    .logo {
+      height: 100px;
+      margin-right: 20px;
+    }
+
+    .title {
+      text-align: center;
+    }
+
+    .title h1 {
+      color: #0511F5;
+      margin: 0;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .title h2 {
+      color: red;
+      margin: 5px 0;
+      font-size: 24px;
+      animation: colorChange 6s infinite;
+      font-weight: bold;
+    }
+
+    @keyframes colorChange {
+      0% { color: red; }
+      50% { color: #FF9800; }
+      100% { color: red; }
+    }
+
+    .marquee-wrapper {
       display: flex;
       justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      border-radius: 10px;
-      border: 4px solid black;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    #output {
-      font-size: 22px;
-      font-weight: bold;
-      color: green;
       margin-top: 10px;
     }
 
-    #sendButton {
-      margin-top: 20px;
-      padding: 14px 28px;
-      background-color: red;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 20px;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      display: none;
+    .marquee-container {
+      width: 640px;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
     }
 
-    @media (max-width: 600px) {
-      #sendButton {
-        padding: 10px 20px;
-        font-size: 16px;
-      }
-    }
-
-    #departmentSelect {
-      margin-top: 20px;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      background-color: #d4f1f4;
-    }
-
-    #focusArea {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-
-    .corner {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border: 8px solid yellow;
-    }
-
-    .corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; border-top-left-radius: 10px; }
-    .corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; border-top-right-radius: 10px; }
-    .corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; border-bottom-left-radius: 10px; }
-    .corner.br { bottom: 0; right: 0; border-left: none; border-top: none; border-bottom-right-radius: 10px; }
-
-    #exitButton {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
+    .marquee-text {
+      display: inline-block;
+      font-weight: bold;
       font-size: 16px;
-      background-color: gold;
-      color: black;
+      animation: scrollExact 15s linear infinite;
+      color: red;
+    }
+
+    @keyframes scrollExact {
+      0% { transform: translateX(640px); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .contact-info {
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    iframe {
+      display: block;
+      margin: 20px auto;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 9999;
+    }
+
+    a {
+      color: #0b5ed7;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h2>Platform: MedCareLink™<br>Developed & Owned by: Phòng KHNV TTYT Giao Thủy - Pham Vinh<br>Copyright © 2025. MedCareLink™</h2>
-
-  <div id="cameraContainer">
-    <video id="qrVideo" autoplay playsinline></video>
-    <div id="focusArea">
-      <div class="corner tl"></div>
-      <div class="corner tr"></div>
-      <div class="corner bl"></div>
-      <div class="corner br"></div>
+  <div class="header">
+    <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvdGBlleN2XCXpHecexQ6L7g9ku2pOnpudPIExTgIQF0X6Vge9U6b_Dk99jdSgaGVRyW6xST5Z9tzFUpGxSH6o3HK350bEonNM_MHWiZYhRuJUB43oXjVl9GxeO3w4HnrLXZ3HO_iPXbrZnbR8fCQdeqGiCcmKEBSG3lF0Dn-j_tnWCs_qo7drMJ4vtGc/s320/LOGO.jpg" alt="Logo TTYT Giao Thủy">
+    <div class="title">
+      <h1>TRUNG TÂM Y TẾ HUYỆN GIAO THỦY</h1>
+      <h2>ĐẶT LỊCH HẸN KHÁM</h2>
     </div>
   </div>
 
-  <select id="departmentSelect">
-    <option value="" disabled selected>Chọn khoa</option>
-    <option value="Khoa Nội tổng hợp">Khoa Nội tổng hợp</option>
-    <option value="Khoa Ngoại">Khoa Ngoại</option>
-    <option value="Khoa Sản">Khoa Sản</option>
-    <option value="Khoa Nhi">Khoa Nhi</option>
-    <option value="Khoa Truyền Nhiễm">Khoa Truyền Nhiễm</option>
-    <option value="Khoa Chuyên Khoa">Khoa Chuyên Khoa</option>
-    <option value="Khoa YHCT">Khoa YHCT</option>
-  </select>
+  <div class="marquee-wrapper">
+    <div class="marquee-container">
+      <div class="marquee-text">
+        Thời gian làm việc: <strong>Sáng 6h30 - 11h30</strong>, <strong>Chiều 13h30 - 17h00</strong>
+      </div>
+    </div>
+  </div>
 
-  <p id="output">Chưa có mã QR...</p>
-  <button id="sendButton" onclick="sendDataToSheet()">Gửi Dữ Liệu</button>
-  <button id="exitButton" onclick="window.open('https://www.google.com.vn/', '_blank')">Thoát</button>
+  <div class="contact-info">
+    Địa chỉ: Số 40 đường Trần Nhân Tông, Thị Trấn Giao Thủy, Nam Định<br />
+    Gmail: <a href="mailto:Trungtamytehuyengiaothuy@gmail.com">Trungtamytehuyengiaothuy@gmail.com</a><br />
+    Facebook: <a href="https://www.facebook.com/share/15JhsGhSjr/" target="_blank">Fanpage Trung tâm Y tế Giao Thủy</a>
+  </div>
 
-  <script>
-    const video = document.getElementById('qrVideo');
-    const output = document.getElementById('output');
-    const sendButton = document.getElementById('sendButton');
-    const departmentSelect = document.getElementById('departmentSelect');
-    let qrData = '';
-    let selectedKhoa = localStorage.getItem("lockedKhoa");
-
-    const webAppURL = 'https://script.google.com/macros/s/AKfycbw7fmaqCulwNKNNmkGxyX3satvpVmEJzxWTDHx7o-0xvz4MzgAA7auUc27nau5CtJamjg/exec';
-
-    if (selectedKhoa) {
-      departmentSelect.value = selectedKhoa;
-    }
-
-    departmentSelect.addEventListener("change", () => {
-      selectedKhoa = departmentSelect.value;
-      localStorage.setItem("lockedKhoa", selectedKhoa);
-    });
-
-    async function startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        video.srcObject = stream;
-
-        if ('BarcodeDetector' in window) {
-          const barcodeDetector = new BarcodeDetector({ formats: ['qr_code'] });
-          scanQRCode(barcodeDetector);
-        } else {
-          alert("Trình duyệt không hỗ trợ Barcode Detector API");
-        }
-      } catch (err) {
-        console.error("Lỗi mở camera:", err);
-        alert("Không thể mở camera! Kiểm tra quyền truy cập.");
-      }
-    }
-
-    function scanQRCode(barcodeDetector) {
-      async function detect() {
-        try {
-          const barcodes = await barcodeDetector.detect(video);
-          if (barcodes.length > 0) {
-            qrData = barcodes[0].rawValue;
-            output.textContent = "Mã QR: " + qrData;
-            sendButton.style.display = 'block';
-          }
-        } catch (err) {
-          console.error("Lỗi khi quét mã QR:", err);
-        }
-        requestAnimationFrame(detect);
-      }
-      detect();
-    }
-
-    function sendDataToSheet() {
-      if (qrData && selectedKhoa) {
-        fetch(webAppURL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `khoa=${encodeURIComponent(selectedKhoa)}&data=${encodeURIComponent(qrData)}`
-        })
-        .then(() => {
-          sendButton.style.backgroundColor = 'green';
-          sendButton.textContent = "Gửi Thành Công";
-          setTimeout(() => {
-            sendButton.style.backgroundColor = 'red';
-            sendButton.textContent = "Gửi Dữ Liệu";
-            sendButton.style.display = 'none';
-            output.textContent = "Chưa có mã QR...";
-            qrData = "";
-          }, 3000);
-        })
-        .catch(() => {
-          alert("Không gửi được dữ liệu. Kiểm tra kết nối mạng hoặc Google Sheets.");
-        });
-      } else {
-        alert("Chưa chọn khoa hoặc chưa có mã QR!");
-      }
-    }
-
-    startCamera();
-  </script>
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSedgBiDgZINAsHadjHzmd_-_AgS5pmF8ZILoORVqciKXcgCNA/viewform?embedded=true" width="640" height="4645">Đang tải…</iframe>
 </body>
 </html>
