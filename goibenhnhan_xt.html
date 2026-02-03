@@ -6,38 +6,39 @@
   <style>
     body { font-family: Arial, sans-serif; background-color: #fdfdfd; margin: 20px; text-align: center; }
     h1 { background-color: #ffe066; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 26px; }
-    .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+    .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
     
-    /* NÚT XANH BÌNH THƯỜNG */
+    /* NÚT XANH CHUẨN */
     button.audio-btn { 
-      width: 150px; height: 55px; background-color: #4CAF50; color: white; 
-      font-size: 16px; font-weight: bold; border: 2px solid #2e7d32; border-radius: 12px; 
+      width: 130px; height: 50px; background-color: #4CAF50; color: white; 
+      font-size: 14px; font-weight: bold; border: 2px solid #2e7d32; border-radius: 10px; 
       cursor: pointer; transition: all 0.2s; 
     }
+    button.audio-btn:hover { background-color: #45a049; transform: scale(1.05); }
     button.audio-btn:active { transform: scale(0.9); }
 
-    /* MÀU ĐỎ KHI ĐÃ ĐƯỢC GỌI - PHẢI CÓ !IMPORTANT */
+    /* MÀU ĐỎ KHI ĐÃ ĐƯỢC GỌI */
     button.audio-btn.active { 
       background-color: #d32f2f !important; 
       border-color: #b71c1c !important; 
       box-shadow: inset 0 3px 5px rgba(0,0,0,0.3) !important;
     }
 
-    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; z-index: 999; }
-    .tts-container { margin-top: 30px; padding: 20px; background: #eee; border-radius: 15px; display: inline-block; }
-    .tts-input { padding: 10px; width: 200px; border-radius: 8px; border: 1px solid #ccc; }
+    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; z-index: 999; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .tts-container { margin-top: 30px; padding: 20px; background: #eee; border-radius: 15px; display: inline-block; width: 80%; }
+    .tts-input { padding: 10px; width: 60%; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
   </style>
 </head>
 <body>
 
-  <h1>🏥 GỌI BỆNH NHÂN XUÂN TRƯỜNG</h1>
+  <h1>🏥 HỆ THỐNG GỌI BỆNH NHÂN XUÂN TRƯỜNG</h1>
 
   <div class="button-container" id="buttonContainer"></div>
 
   <div class="tts-container">
-    <h3>Gọi tự do (Gõ gì đọc nấy)</h3>
-    <input type="text" id="ttsInput" class="tts-input" placeholder="Ví dụ: Mời số 500">
-    <button onclick="playTTS()" style="padding: 10px; background: #ff9800; color: white; border-radius: 8px; border: none; cursor: pointer;">Phát Loa</button>
+    <h3>Gọi tự do (Gõ tên hoặc số)</h3>
+    <input type="text" id="ttsInput" class="tts-input" placeholder="Ví dụ: Mời bệnh nhân số 500">
+    <button onclick="playTTS()" style="padding: 11px 20px; background: #ff9800; color: white; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">PHÁT LOA</button>
   </div>
 
   <button class="reset-btn" onclick="resetAll()">🔄 LÀM MỚI DANH SÁCH</button>
@@ -58,49 +59,49 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const links = ["1-2", "3-4", "5-6", "7-8", "9-10", "11-12", "13-14", "15-16", "17-18", "19-20", "21-22", "23-24", "25-26", "27-28", "29-30", "31-32", "33-34", "35-36", "37-38", "39-40", "41-42", "43-44", "45-46", "47-48", "49-50"];
+    // DANH SÁCH ĐẦY ĐỦ 90 NÚT CỦA ĐẠI CA
+    const links = [
+      "1-2", "3-4", "5-6", "7-8", "9-10", "11-12", "13-14", "15-16", "17-18", "19-20",
+      "21-22", "23-24", "25-26", "27-28", "29-30", "31-32", "33-34", "35-36", "37-38", "39-40",
+      "41-42", "43-44", "45-46", "47-48", "49-50", "51-52-53", "54-55-56", "57-58-59", "60-61-62", "63-64-65",
+      "66-67-68", "69-70-71", "72-73-74", "75-76-77", "78-79-80", "81-82-83", "84-85-86", "87-88-89", "90-91-92", "93-94-95",
+      "96-97-98", "99-100-101", "102-103-104", "105-106-107", "108-109-110", "111-112-113", "114-115-116", "117-118-119", "120-121-122", "123-124-125",
+      "126-127-128", "129-130-131", "132-133-134", "135-136-137", "138-139-140", "141-142-143", "144-145-146", "147-148-149", "150-151-152", "153-154-155",
+      "156-157-158", "159-160-161", "162-163-164", "165-166-167", "168-169-170", "171-172-173", "174-175-176", "177-178-179", "180-181-182", "183-184-185",
+      "186-187-188", "189-190-191", "192-193-194", "195-196-197", "198-199-200", "201-202-203", "204-205-206", "207-208-209", "210-211-212", "213-214-215",
+      "216-217-218", "219-220-221", "222-223-224", "224-226-227", "228-229-230", "231-232-233", "234-235-236", "237-238-239", "240-241-242", "243-244-245"
+    ];
 
     const container = document.getElementById("buttonContainer");
     const audio = document.getElementById("audioPlayer");
-    
-    // ĐƯỜNG DẪN ĐỒNG BỘ - ĐÃ KHỚP VỚI HÌNH ĐẠI CA GỬI
     const d = new Date();
     const todayKey = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
     const statusPath = `buttonStatus/${todayKey}`;
 
     links.forEach(name => {
       const btn = document.createElement("button");
-      btn.textContent = "Phát " + name;
+      btn.textContent = name;
       btn.className = "audio-btn";
       
       const btnRef = ref(db, `${statusPath}/${name}`);
 
-      // LẮNG NGHE ĐỔI MÀU (Máy khác bấm là máy này đỏ)
       onValue(btnRef, (snapshot) => {
-        if (snapshot.val() === true) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
+        if (snapshot.val() === true) btn.classList.add("active");
+        else btn.classList.remove("active");
       });
 
       btn.onclick = () => {
-        // 1. Phát nhạc
         audio.src = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.mp3`;
-        audio.play().catch(() => console.log("Lỗi nhạc"));
-        
-        // 2. Ghi lên Firebase
+        audio.play().catch(() => {
+          audio.src = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.MP3`;
+          audio.play().catch(() => console.log("Lỗi nhạc"));
+        });
         set(btnRef, true);
       };
       container.appendChild(btn);
     });
 
-    window.resetAll = () => {
-      if(confirm("Làm mới danh sách (Xóa hết màu đỏ)?")) {
-        remove(ref(db, statusPath));
-      }
-    };
-
+    window.resetAll = () => confirm("Làm mới danh sách?") && remove(ref(db, statusPath));
     window.playTTS = () => {
       const txt = document.getElementById("ttsInput").value;
       if (!txt) return;
