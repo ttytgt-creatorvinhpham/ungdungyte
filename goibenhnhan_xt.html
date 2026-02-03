@@ -6,19 +6,17 @@
   <style>
     body { font-family: Arial, sans-serif; background-color: #fdfdfd; margin: 20px; text-align: center; }
     h1 { background-color: #ffe066; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 26px; }
-    
     .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
     
-    /* NÚT BÌNH THƯỜNG - MÀU XANH LÁ */
+    /* NÚT XANH BÌNH THƯỜNG */
     button.audio-btn { 
       width: 150px; height: 55px; background-color: #4CAF50; color: white; 
       font-size: 16px; font-weight: bold; border: 2px solid #2e7d32; border-radius: 12px; 
       cursor: pointer; transition: all 0.2s; 
     }
-    
     button.audio-btn:active { transform: scale(0.9); }
 
-    /* MÀU ĐỎ KHI ĐÃ ĐƯỢC GỌI - DÙNG !IMPORTANT ĐỂ ÉP MÀU */
+    /* MÀU ĐỎ KHI ĐÃ ĐƯỢC GỌI - PHẢI CÓ !IMPORTANT */
     button.audio-btn.active { 
       background-color: #d32f2f !important; 
       border-color: #b71c1c !important; 
@@ -37,8 +35,8 @@
   <div class="button-container" id="buttonContainer"></div>
 
   <div class="tts-container">
-    <h3>Gọi tự do</h3>
-    <input type="text" id="ttsInput" class="tts-input" placeholder="Nhập số...">
+    <h3>Gọi tự do (Gõ gì đọc nấy)</h3>
+    <input type="text" id="ttsInput" class="tts-input" placeholder="Ví dụ: Mời số 500">
     <button onclick="playTTS()" style="padding: 10px; background: #ff9800; color: white; border-radius: 8px; border: none; cursor: pointer;">Phát Loa</button>
   </div>
 
@@ -65,18 +63,19 @@
     const container = document.getElementById("buttonContainer");
     const audio = document.getElementById("audioPlayer");
     
-    // FIX CỨNG ĐỊA CHỈ ĐỂ TEST REALTIME CHO CHUẨN
-    const statusPath = `bv_xt/phong_goi_chinh`;
+    // ĐƯỜNG DẪN ĐỒNG BỘ - ĐÃ KHỚP VỚI HÌNH ĐẠI CA GỬI
+    const d = new Date();
+    const todayKey = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
+    const statusPath = `buttonStatus/${todayKey}`;
 
     links.forEach(name => {
       const btn = document.createElement("button");
-      btn.textContent = name;
+      btn.textContent = "Phát " + name;
       btn.className = "audio-btn";
-      btn.id = "btn-" + name; // Gán ID để dễ tìm nút
       
       const btnRef = ref(db, `${statusPath}/${name}`);
 
-      // LẮNG NGHE ĐỔI MÀU TỪ FIREBASE
+      // LẮNG NGHE ĐỔI MÀU (Máy khác bấm là máy này đỏ)
       onValue(btnRef, (snapshot) => {
         if (snapshot.val() === true) {
           btn.classList.add("active");
@@ -90,14 +89,14 @@
         audio.src = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.mp3`;
         audio.play().catch(() => console.log("Lỗi nhạc"));
         
-        // 2. Gửi tín hiệu đỏ cho tất cả các máy
+        // 2. Ghi lên Firebase
         set(btnRef, true);
       };
       container.appendChild(btn);
     });
 
     window.resetAll = () => {
-      if(confirm("Làm mới danh sách?")) {
+      if(confirm("Làm mới danh sách (Xóa hết màu đỏ)?")) {
         remove(ref(db, statusPath));
       }
     };
