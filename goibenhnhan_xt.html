@@ -5,19 +5,19 @@
   <title>Gọi Bệnh Nhân - Xuân Trường</title>
   <style>
     body { font-family: Arial, sans-serif; background-color: #fdfdfd; margin: 20px; text-align: center; }
-    h1 { background-color: #ffe066; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 28px; }
-    .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
+    h1 { background-color: #ffe066; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 26px; }
+    .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
     
-    /* NÚT XANH CHUẨN - CHỮ TO BỰ */
+    /* NÚT VỪA VẶN - CHỮ 20PX */
     button.audio-btn { 
-      width: 170px; 
-      height: 70px; 
+      width: 140px; 
+      height: 60px; 
       background-color: #4CAF50; 
       color: white; 
-      font-size: 24px; /* CHỮ TO RÕ */
+      font-size: 20px; /* CHỈNH XUỐNG 20 THEO Ý ĐẠI CA */
       font-weight: bold; 
-      border: 3px solid #2e7d32; 
-      border-radius: 12px; 
+      border: 2px solid #2e7d32; 
+      border-radius: 10px; 
       cursor: pointer; 
       transition: all 0.2s; 
     }
@@ -31,19 +31,16 @@
       box-shadow: inset 0 3px 5px rgba(0,0,0,0.3) !important;
     }
 
-    /* HIỆU ỨNG NHẤP NHÁY KHI ĐANG NHẤN */
-    .calling {
-      animation: blink 0.5s infinite;
-    }
+    /* NHẤP NHÁY KHI ĐANG BẤM */
+    .calling { animation: blink 0.5s infinite; }
     @keyframes blink {
       0% { background-color: #ffeb3b; color: black; }
       100% { background-color: #d32f2f; color: white; }
     }
 
-    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; background: #2196F3; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 16px; }
-    .tts-container { margin-top: 40px; padding: 25px; background: #eee; border-radius: 15px; display: inline-block; width: 85%; border: 2px dashed #bbb; }
-    .tts-input { padding: 12px; width: 65%; border-radius: 8px; border: 2px solid #ccc; font-size: 18px; outline: none; }
-    .tts-input:focus { border-color: #ff9800; }
+    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; z-index: 999; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .tts-container { margin-top: 30px; padding: 20px; background: #eee; border-radius: 15px; display: inline-block; width: 80%; }
+    .tts-input { padding: 10px; width: 60%; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
   </style>
 </head>
 <body>
@@ -54,8 +51,8 @@
 
   <div class="tts-container">
     <h3>Gọi tự do (Gõ tên hoặc số)</h3>
-    <input type="text" id="ttsInput" class="tts-input" placeholder="Ví dụ: Mời bệnh nhân Nguyễn Văn A">
-    <button onclick="playTTS()" style="padding: 12px 25px; background: #ff9800; color: white; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 16px;">PHÁT LOA</button>
+    <input type="text" id="ttsInput" class="tts-input" placeholder="Ví dụ: Mời số 500">
+    <button onclick="playTTS()" style="padding: 11px 20px; background: #ff9800; color: white; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">PHÁT LOA</button>
   </div>
 
   <button class="reset-btn" onclick="resetAll()">🔄 LÀM MỚI DANH SÁCH</button>
@@ -98,7 +95,6 @@
       const btn = document.createElement("button");
       btn.textContent = name;
       btn.className = "audio-btn";
-      
       const btnRef = ref(db, `${statusPath}/${name}`);
 
       onValue(btnRef, (snapshot) => {
@@ -107,10 +103,8 @@
       });
 
       btn.onclick = () => {
-        // Hiệu ứng nhấp nháy tạm thời khi đang phát
         btn.classList.add("calling");
         setTimeout(() => btn.classList.remove("calling"), 3000);
-
         audio.src = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.mp3`;
         audio.play().catch(() => {
           audio.src = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.MP3`;
@@ -121,7 +115,7 @@
       container.appendChild(btn);
     });
 
-    window.resetAll = () => confirm("Làm mới toàn bộ danh sách sang màu xanh?") && remove(ref(db, statusPath));
+    window.resetAll = () => confirm("Làm mới màu xanh?") && remove(ref(db, statusPath));
     window.playTTS = () => {
       const txt = document.getElementById("ttsInput").value;
       if (!txt) return;
