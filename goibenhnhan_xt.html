@@ -4,37 +4,45 @@
   <meta charset="UTF-8">
   <title>Gọi Bệnh Nhân - Xuân Trường</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #fdfdfd; margin: 20px; position: relative; min-height: 100vh; }
-    h1 { background-color: #ffe066; padding: 15px; text-align: center; font-size: 28px; font-weight: bold; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 0; }
-    .marquee-container { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; margin-top: 4px; padding: 2px 0; }
-    .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; font-size: 16px; color: #05066D; font-weight: 600; }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    body { font-family: Arial, sans-serif; background-color: #fdfdfd; margin: 20px; text-align: center; }
+    h1 { background-color: #ffe066; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 26px; }
+    
     .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
-    button.audio-btn { width: 160px; height: 50px; background-color: #4CAF50; color: white; font-size: 16px; font-weight: bold; border: 2px solid #2e7d32; border-radius: 12px; cursor: pointer; transition: background-color 0.3s, transform 0.2s; }
-    button.audio-btn:hover { background-color: #45a049; transform: scale(1.03); }
-    button.audio-btn.active { background-color: #d32f2f !important; border-color: #b71c1c; }
-    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 10px 16px; font-size: 14px; font-weight: bold; background-color: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); transition: background-color 0.3s; z-index: 1000; }
-    .tts-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
-    .tts-input { width: 250px; height: 40px; padding: 8px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; }
-    .tts-btn { width: 100px; height: 50px; color: white; font-size: 14px; font-weight: bold; border-radius: 12px; cursor: pointer; background-color: #ff9800; border: 2px solid #f57c00; }
-    h2 { text-align: center; font-size: 20px; color: #333; margin: 20px 0 10px; }
+    
+    /* NÚT BÌNH THƯỜNG - MÀU XANH LÁ */
+    button.audio-btn { 
+      width: 150px; height: 55px; background-color: #4CAF50; color: white; 
+      font-size: 16px; font-weight: bold; border: 2px solid #2e7d32; border-radius: 12px; 
+      cursor: pointer; transition: all 0.2s; 
+    }
+    
+    button.audio-btn:active { transform: scale(0.9); }
+
+    /* MÀU ĐỎ KHI ĐÃ ĐƯỢC GỌI - DÙNG !IMPORTANT ĐỂ ÉP MÀU */
+    button.audio-btn.active { 
+      background-color: #d32f2f !important; 
+      border-color: #b71c1c !important; 
+      box-shadow: inset 0 3px 5px rgba(0,0,0,0.3) !important;
+    }
+
+    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; z-index: 999; }
+    .tts-container { margin-top: 30px; padding: 20px; background: #eee; border-radius: 15px; display: inline-block; }
+    .tts-input { padding: 10px; width: 200px; border-radius: 8px; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
-  <h1>🏥 HỆ THỐNG GỌI BỆNH NHÂN XUÂN TRƯỜNG</h1>
-  <div class="marquee-container">
-    <div class="marquee-text">Creator by 🛠️ Phòng KHNV TTYT Giao Thủy - Phạm Vinh | Copyright © 2026</div>
-  </div>
+
+  <h1>🏥 GỌI BỆNH NHÂN XUÂN TRƯỜNG</h1>
 
   <div class="button-container" id="buttonContainer"></div>
-  <button class="reset-btn" onclick="resetAll()">LÀM MỚI TRẠNG THÁI</button>
 
-  <h2>Nhập thêm văn bản tại đây</h2>
   <div class="tts-container">
-    <input type="text" class="tts-input" id="ttsInput" placeholder="Ví dụ: Mời số 500">
-    <button class="tts-btn" onclick="playTTS()">Phát</button>
+    <h3>Gọi tự do</h3>
+    <input type="text" id="ttsInput" class="tts-input" placeholder="Nhập số...">
+    <button onclick="playTTS()" style="padding: 10px; background: #ff9800; color: white; border-radius: 8px; border: none; cursor: pointer;">Phát Loa</button>
   </div>
 
+  <button class="reset-btn" onclick="resetAll()">🔄 LÀM MỚI DANH SÁCH</button>
   <audio id="audioPlayer" style="display:none;"></audio>
 
   <script type="module">
@@ -46,67 +54,58 @@
       authDomain: "ung-dung-y-te-8289b.firebaseapp.com",
       databaseURL: "https://ung-dung-y-te-8289b-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "ung-dung-y-te-8289b",
-      storageBucket: "ung-dung-y-te-8289b.appspot.com",
       appId: "1:291727072122:web:7109ad07009512337214c3"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const links = [
-      "1-2", "3-4", "5-6", "7-8", "9-10", "11-12", "13-14", "15-16", "17-18", "19-20",
-      "21-22", "23-24", "25-26", "27-28", "29-30", "31-32", "33-34", "35-36", "37-38", "39-40",
-      "41-42", "43-44", "45-46", "47-48", "49-50", "51-52-53", "54-55-56", "57-58-59", "60-61-62", "63-64-65",
-      "66-67-68", "69-70-71", "72-73-74", "75-76-77", "78-79-80", "81-82-83", "84-85-86", "87-88-89", "90-91-92", "93-94-95",
-      "96-97-98", "99-100-101", "102-103-104", "105-106-107", "108-109-110", "111-112-113", "114-115-116", "117-118-119", "120-121-122", "123-124-125",
-      "126-127-128", "129-130-131", "132-133-134", "135-136-137", "138-139-140", "141-142-143", "144-145-146", "147-148-149", "150-151-152", "153-154-155",
-      "156-157-158", "159-160-161", "162-163-164", "165-166-167", "168-169-170", "171-172-173", "174-175-176", "177-178-179", "180-181-182", "183-184-185",
-      "186-187-188", "189-190-191", "192-193-194", "195-196-197", "198-199-200", "201-202-203", "204-205-206", "207-208-209", "210-211-212", "213-214-215",
-      "216-217-218", "219-220-221", "222-223-224", "224-226-227", "228-229-230", "231-232-233", "234-235-236", "237-238-239", "240-241-242", "243-244-245"
-    ];
+    const links = ["1-2", "3-4", "5-6", "7-8", "9-10", "11-12", "13-14", "15-16", "17-18", "19-20", "21-22", "23-24", "25-26", "27-28", "29-30", "31-32", "33-34", "35-36", "37-38", "39-40", "41-42", "43-44", "45-46", "47-48", "49-50"];
 
     const container = document.getElementById("buttonContainer");
     const audio = document.getElementById("audioPlayer");
-    const todayKey = new Date().toLocaleDateString('en-GB').replace(/\//g, "-");
-    const statusPath = `bv_xuan_truong/${todayKey}`;
+    
+    // FIX CỨNG ĐỊA CHỈ ĐỂ TEST REALTIME CHO CHUẨN
+    const statusPath = `bv_xt/phong_goi_chinh`;
 
     links.forEach(name => {
       const btn = document.createElement("button");
-      btn.textContent = "Phát " + name;
+      btn.textContent = name;
       btn.className = "audio-btn";
+      btn.id = "btn-" + name; // Gán ID để dễ tìm nút
       
-      // Đường dẫn nhạc ĐÚNG cho Xuân Trường (trong folder audio_xt)
-      const audioUrl = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.mp3`;
       const btnRef = ref(db, `${statusPath}/${name}`);
 
-      // Lắng nghe trạng thái Realtime
+      // LẮNG NGHE ĐỔI MÀU TỪ FIREBASE
       onValue(btnRef, (snapshot) => {
-        if (snapshot.val()) btn.classList.add("active");
-        else btn.classList.remove("active");
+        if (snapshot.val() === true) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
       });
 
       btn.onclick = () => {
-        audio.src = audioUrl;
-        audio.play().catch(() => {
-             // Thử dự phòng nếu file bị đuôi .mp3.mp3
-             audio.src = audioUrl + ".mp3";
-             audio.play().catch(() => console.log("Lỗi nhạc"));
-        });
+        // 1. Phát nhạc
+        audio.src = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.mp3`;
+        audio.play().catch(() => console.log("Lỗi nhạc"));
+        
+        // 2. Gửi tín hiệu đỏ cho tất cả các máy
         set(btnRef, true);
       };
       container.appendChild(btn);
     });
 
-    window.resetAll = async () => {
-      if(confirm("Làm mới trạng thái (Xóa màu đỏ)?")) {
-        await remove(ref(db, statusPath));
+    window.resetAll = () => {
+      if(confirm("Làm mới danh sách?")) {
+        remove(ref(db, statusPath));
       }
     };
 
     window.playTTS = () => {
-      const text = document.getElementById("ttsInput").value;
-      if (!text) return;
-      audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(text)}&tl=vi`;
+      const txt = document.getElementById("ttsInput").value;
+      if (!txt) return;
+      audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(txt)}&tl=vi`;
       audio.play();
     };
   </script>
