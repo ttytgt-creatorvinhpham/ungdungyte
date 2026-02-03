@@ -4,37 +4,38 @@
   <meta charset="UTF-8">
   <title>Gọi Bệnh Nhân - Xuân Trường</title>
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f4f8; margin: 20px; text-align: center; }
-    h1 { background-color: #1976D2; color: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
-    button.audio-btn { 
-      width: 130px; height: 55px; background-color: #2196F3; color: white; 
-      font-size: 14px; font-weight: bold; border: none; border-radius: 8px; 
-      cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    /* MÀU ĐỎ KHI ĐÃ ẤN (ĐỒNG BỘ THỜI GIAN THỰC) */
-    button.audio-btn.active { background-color: #d32f2f !important; box-shadow: inset 0 3px 5px rgba(0,0,0,0.3); transform: scale(0.95); }
-    
-    .tts-section { margin-top: 40px; padding: 20px; background: white; border-radius: 15px; display: inline-block; width: 90%; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    .tts-input { width: 60%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
-    .tts-btn { padding: 12px 25px; background-color: #ff9800; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-left: 10px; }
-    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 15px; background: #455a64; color: white; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; z-index: 100; }
+    body { font-family: Arial, sans-serif; background-color: #fdfdfd; margin: 20px; position: relative; min-height: 100vh; }
+    h1 { background-color: #ffe066; padding: 15px; text-align: center; font-size: 28px; font-weight: bold; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 0; }
+    .marquee-container { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; margin-top: 4px; padding: 2px 0; }
+    .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; font-size: 16px; color: #05066D; font-weight: 600; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+    button.audio-btn { width: 160px; height: 50px; background-color: #4CAF50; color: white; font-size: 16px; font-weight: bold; border: 2px solid #2e7d32; border-radius: 12px; cursor: pointer; transition: background-color 0.3s, transform 0.2s; }
+    button.audio-btn:hover { background-color: #45a049; transform: scale(1.03); }
+    button.audio-btn.active { background-color: #d32f2f !important; border-color: #b71c1c; }
+    .reset-btn { position: fixed; bottom: 20px; right: 20px; padding: 10px 16px; font-size: 14px; font-weight: bold; background-color: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); transition: background-color 0.3s; z-index: 1000; }
+    .tts-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+    .tts-input { width: 250px; height: 40px; padding: 8px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; }
+    .tts-btn { width: 100px; height: 50px; color: white; font-size: 14px; font-weight: bold; border-radius: 12px; cursor: pointer; background-color: #ff9800; border: 2px solid #f57c00; }
+    h2 { text-align: center; font-size: 20px; color: #333; margin: 20px 0 10px; }
   </style>
 </head>
 <body>
-
-  <h1>🏥 HỆ THỐNG GỌI BỆNH NHÂN - XUÂN TRƯỜNG</h1>
-  
-  <div class="button-container" id="buttonContainer"></div>
-
-  <div class="tts-section">
-    <h3>Gọi tự do (Gõ tên bệnh nhân)</h3>
-    <input type="text" class="tts-input" id="ttsInput" placeholder="Ví dụ: Mời bệnh nhân Nguyễn Văn A">
-    <button class="tts-btn" onclick="window.playTTS()">GỌI NGAY</button>
+  <h1>🏥 HỆ THỐNG GỌI BỆNH NHÂN XUÂN TRƯỜNG</h1>
+  <div class="marquee-container">
+    <div class="marquee-text">Creator by 🛠️ Phòng KHNV TTYT Giao Thủy - Phạm Vinh | Copyright © 2026</div>
   </div>
 
-  <button class="reset-btn" onclick="window.resetAll()">🔄 LÀM MỚI (SANG BUỔI MỚI)</button>
-  <audio id="audioPlayer"></audio>
+  <div class="button-container" id="buttonContainer"></div>
+  <button class="reset-btn" onclick="resetAll()">LÀM MỚI TRẠNG THÁI</button>
+
+  <h2>Nhập thêm văn bản tại đây</h2>
+  <div class="tts-container">
+    <input type="text" class="tts-input" id="ttsInput" placeholder="Ví dụ: Mời số 500">
+    <button class="tts-btn" onclick="playTTS()">Phát</button>
+  </div>
+
+  <audio id="audioPlayer" style="display:none;"></audio>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -45,7 +46,7 @@
       authDomain: "ung-dung-y-te-8289b.firebaseapp.com",
       databaseURL: "https://ung-dung-y-te-8289b-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "ung-dung-y-te-8289b",
-      storageBucket: "ung-dung-y-te-8289b.firebasestorage.app",
+      storageBucket: "ung-dung-y-te-8289b.appspot.com",
       appId: "1:291727072122:web:7109ad07009512337214c3"
     };
 
@@ -66,51 +67,42 @@
 
     const container = document.getElementById("buttonContainer");
     const audio = document.getElementById("audioPlayer");
-    const today = new Date().toLocaleDateString('en-GB').replace(/\//g, "-");
-    const path = `bv_xuan_truong/${today}`;
+    const todayKey = new Date().toLocaleDateString('en-GB').replace(/\//g, "-");
+    const statusPath = `bv_xuan_truong/${todayKey}`;
 
-    // TẠO NÚT BẤM
     links.forEach(name => {
       const btn = document.createElement("button");
-      btn.id = "btn-" + name; // Gán ID để dễ tìm nút và đổi màu
-      btn.textContent = name;
+      btn.textContent = "Phát " + name;
       btn.className = "audio-btn";
       
+      // Đường dẫn nhạc ĐÚNG cho Xuân Trường (trong folder audio_xt)
       const audioUrl = `https://ttytgt-creatorvinhpham.github.io/ungdungyte/audio_xt/${name}.mp3`;
-      const btnRef = ref(db, `${path}/${name}`);
+      const btnRef = ref(db, `${statusPath}/${name}`);
 
-      // LẮNG NGHE FIREBASE (MÁY NÀO ẤN THÌ TẤT CẢ CÁC MÁY CÒN LẠI ĐỀU ĐỔI MÀU)
+      // Lắng nghe trạng thái Realtime
       onValue(btnRef, (snapshot) => {
-        if (snapshot.val()) {
-            btn.classList.add("active");
-        } else {
-            btn.classList.remove("active");
-        }
+        if (snapshot.val()) btn.classList.add("active");
+        else btn.classList.remove("active");
       });
 
       btn.onclick = () => {
-        // 1. Phát nhạc tại máy đang ấn
         audio.src = audioUrl;
         audio.play().catch(() => {
-             // Thử link dự phòng nếu file bị đặt tên là .mp3.mp3
+             // Thử dự phòng nếu file bị đuôi .mp3.mp3
              audio.src = audioUrl + ".mp3";
-             audio.play().catch(() => console.log("Lỗi file nhạc"));
+             audio.play().catch(() => console.log("Lỗi nhạc"));
         });
-
-        // 2. Gửi tín hiệu lên Firebase để các máy khác cùng đỏ
         set(btnRef, true);
       };
       container.appendChild(btn);
     });
 
-    // HÀM RESET CẢ DANH SÁCH
-    window.resetAll = () => {
-        if(confirm("Làm mới danh sách (Xóa hết màu đỏ)?")) {
-            remove(ref(db, path));
-        }
-    }
+    window.resetAll = async () => {
+      if(confirm("Làm mới trạng thái (Xóa màu đỏ)?")) {
+        await remove(ref(db, statusPath));
+      }
+    };
 
-    // HÀM GỌI TỰ DO (TTS)
     window.playTTS = () => {
       const text = document.getElementById("ttsInput").value;
       if (!text) return;
